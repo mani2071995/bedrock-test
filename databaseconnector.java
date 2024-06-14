@@ -1,19 +1,12 @@
-// File: DatabaseConnector.java
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
-public class DatabaseConnector {
-    private static final String URL = "jdbc:mysql://localhost:3306/mydatabase";
-    private static final String USER = "root";
-    private static final String PASSWORD = "password"; // Vulnerability: Hardcoded credentials
+// Retrieve credentials securely from secrets manager
+String url = "jdbc:mysql://localhost:3306/mydatabase?useSSL=true";
+String user = secretsManager.getDatabaseUser(); 
+String password = secretsManager.getDatabasePassword();
 
-    public Connection connect() {
-        try {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+try {
+   Connection conn = DriverManager.getConnection(url, user, password);  
+   // ... use connection ...
+} catch (SQLException e) {
+   throw new DatabaseError("Connection failed"); 
 }
