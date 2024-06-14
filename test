@@ -1,1 +1,3 @@
-test
+python
+import sys
+print(sys)
