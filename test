@@ -1,1 +1,4 @@
-test
+
+def foo():
+  print("Hello")
+  print("World" # missing closing parenthesis 
