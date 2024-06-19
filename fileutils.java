@@ -1,19 +1,35 @@
-// File: FileUtils.java
+java
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class FileUtils {
+
     public static String readFile(String filename) throws IOException {
+        
         File file = new File(filename);
+        
+        if(!file.exists()) {
+            throw new IOException("File not found");
+        }
+        
+        if(!file.isFile()) {
+            throw new IOException("Provided path is not a file");
+        }
+        
         StringBuilder content = new StringBuilder();
-        try (FileReader reader = new FileReader(file)) {
-            char[] buffer = new char[1024];
-            int read;
-            while ((read = reader.read(buffer)) != -1) {
-                content.append(buffer, 0, read);
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            
+            while((line = reader.readLine()) != null) {
+                content.append(line);
+                content.append(System.lineSeparator());
             }
         }
+        
         return content.toString();
     }
+
 }
