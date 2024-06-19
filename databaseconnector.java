@@ -1,19 +1,13 @@
-// File: DatabaseConnector.java
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+java
+// Load credentials from secure storage
+String url = "jdbc:mysql://localhost:3306/mydatabase?useSSL=true"; 
+String user = System.getenv("DB_USER");
+String password = getFromSecureStorage("DB_PASSWORD");
 
-public class DatabaseConnector {
-    private static final String URL = "jdbc:mysql://localhost:3306/mydatabase";
-    private static final String USER = "root";
-    private static final String PASSWORD = "password"; // Vulnerability: Hardcoded credentials
+// Use connection pool
+HikariDataSource dataSource = new HikariDataSource();
+dataSource.setJdbcUrl(url); 
+dataSource.setUsername(user);
+dataSource.setPassword(password);
 
-    public Connection connect() {
-        try {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-}
+Connection connection = dataSource.getConnection(); 
