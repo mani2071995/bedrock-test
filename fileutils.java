@@ -1,19 +1,12 @@
-// File: FileUtils.java
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-
-public class FileUtils {
-    public static String readFile(String filename) throws IOException {
-        File file = new File(filename);
-        StringBuilder content = new StringBuilder();
-        try (FileReader reader = new FileReader(file)) {
-            char[] buffer = new char[1024];
-            int read;
-            while ((read = reader.read(buffer)) != -1) {
-                content.append(buffer, 0, read);
-            }
-        }
-        return content.toString();
-    }
+java 
+/**
+ * Reads the contents of a file into a string.
+*
+* @param filename the path of the file to read
+* @param charset the character encoding to use
+* @return the contents of the file
+* @throws IOException if an I/O error occurs
+*/
+public static String readFile(String filename, Charset charset) throws IOException {
+  // implementation
 }
