@@ -1,19 +1,12 @@
-// File: DatabaseConnector.java
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
-public class DatabaseConnector {
-    private static final String URL = "jdbc:mysql://localhost:3306/mydatabase";
-    private static final String USER = "root";
-    private static final String PASSWORD = "password"; // Vulnerability: Hardcoded credentials
+// Read username/password from config file
+String configUserName = readConfig("db.user"); 
+String configPassword = readConfig("db.password");
 
-    public Connection connect() {
-        try {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-}
+// Use integrated authentication
+Connection conn = DriverManager.getConnection(URL); 
+
+// Use prepared statements 
+String sql = "SELECT * FROM Users WHERE Id = ?";
+PreparedStatement ps = conn.prepareStatement(sql);
+ps.setInt(1, id);
