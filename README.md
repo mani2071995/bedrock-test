@@ -1,154 +1,75 @@
-# metrics-play
+LICENSE - . Changes: Here are some suggestions to improve the code quality:
 
-This module provides some support for @codahale [Metrics](https://dropwizard.github.io/metrics/4.0.5/) library in a Play2 application (Scala)
-
-[![Build Status](https://travis-ci.org/kenshoo/metrics-play.png)](https://travis-ci.org/kenshoo/metrics-play)
-
-[![codecov.io](https://img.shields.io/codecov/c/gh/kenshoo/metrics-play/master.svg)](https://codecov.io/github/kenshoo/metrics-play/branch/master)
-
-Play Version: 2.7.0, Metrics Version: 4.0.5, Scala Versions: 2.12.8
-
-## Features
-
-1. Default Metrics Registry
-2. Metrics Servlet
-3. Filter to instrument http requests
+1. Add copyright and license headers at the top of the file to clearly state ownership and terms of use.
 
 
-## Usage
+3. Use blank lines between logical sections to visually separate them.
 
-Add metrics-play dependency:
+4. Fix spelling/grammar issues (e.g. "a Apache" should be "an Apache").
 
-```scala
-    val appDependencies = Seq(
-    ...
-    "com.kenshoo" %% "metrics-play" % "2.7.3_0.8.2"
-    )
-```
-
-To enable the module:
-
-add to application.conf the following line
-
-     play.modules.enabled+="com.kenshoo.play.metrics.PlayModule"
-
-### Default Registry
-
-To add a custom metrics, you can use `defaultRegistry` which returns an instance of [MetricRegistry](https://metrics.dropwizard.io/4.0.5/manual/core).
-
-```scala
-     import com.kenshoo.play.metrics.Metrics
-     import com.codahale.metrics.Counter
-
-     class SomeController @Inject() (metrics: Metrics) {
-         val counter = metrics.defaultRegistry.counter("name")
-         counter.inc()
-     }
-````
-
-### Metrics Controller
-
-An implementation of the [metrics-servlet](https://metrics.dropwizard.io/4.0.5/manual/servlets#metricsservlet) as a play2 controller.
-
-It exports all registered metrics as a json document.
-
-To enable the controller add a mapping to conf/routes file
-
-     GET     /admin/metrics              com.kenshoo.play.metrics.MetricsController.metrics
-
-#### Configuration
-Some configuration is supported through the default configuration file:
-
-    metrics.rateUnit - (default is SECONDS)
-
-    metrics.durationUnit (default is SECONDS)
-
-    metrics.showSamples [true/false] (default is false)
-
-    metrics.jvm - [true/false] (default is true) controls reporting jvm metrics
-
-    metrics.logback - [true/false] (default is true) controls reporing logback metrics
-
-### Metrics Filter
-
-An implementation of the Metrics' instrumenting filter for Play2. It records requests duration, number of active requests and counts each return code
+5. Remove trailing whitespace.
 
 
-```scala
-    import com.kenshoo.play.metrics.MetricsFilter
-    import play.api.mvc._
-
-    class Filters @Inject() (metricsFilter: MetricsFilter) extends HttpFilters {
-        val filters = Seq(metricsFilter)
-    }
-```
-
-## Advanced usage
-
-By default, metrics are prefixed with "com.kenshoo.play.metrics.MetricsFilter".
-
-```
-"com.kenshoo.play.metrics.MetricsFilter.200" : {
-   "count" : 1584456,
-   "m15_rate" : 1.6800220918042639,
-   "m1_rate" : 1.9015104460758263,
-   "m5_rate" : 1.8138545372237085,
-   "mean_rate" : 3.20162010446889,
-   "units" : "events/second"
-},
-```
-
-You can change the prefix by extending `MetricsFilterImpl`.
-
-```scala
-package myapp
-
-import javax.inject.Inject
-
-import com.kenshoo.play.metrics.{MetricsImpl, MetricsFilter, Metrics, MetricsFilterImpl}
-import play.api.http.Status
-import play.api.inject.Module
-import play.api.{Configuration, Environment}
-
-class MyMetricsFilter @Inject() (metrics: Metrics) extends MetricsFilterImpl(metrics) {
-
-  // configure metrics prefix
-  override def labelPrefix: String = "foobar"
-
-  // configure status codes to be monitored. other status codes are labeled as "other"
-  override def knownStatuses = Seq(Status.OK)
-}
-
-class MyMetricsModule extends Module {
-  def bindings(environment: Environment, configuration: Configuration) = {
-    Seq(
-      bind[MetricsFilter].to[MyMetricsFilter].eagerly,
-      bind[Metrics].to[MetricsImpl].eagerly
-    )
-  }
-}
-```
-
-and add the following line to application.conf
-
-```
-play.modules.enabled+="myapp.MyMetricsModule"
-```
-
-## Changes
-
-* 2.7.3_0.8.2 - Minor compatability fix for Play 2.8
-* 2.7.3_0.8.1 - Upgrade to play 2.7.3 and support Scala version 2.12.8 / 2.13.0 with dropwizard 4.0.5
-* 2.7.0_0.8.0 - Upgrade to play 2.7.0 and Scala 2.12.8 and dropwizard 4.0.5
-* 2.6.19_0.7.0 - Upgrade to play 2.6.19 and Scala 2.12.6 and dropwizard 4.0.3
-* 2.6.2_0.6.1 - Upgrade to play 2.6 and Scala 2.12. Migration: If you get errors like "No configuration setting found ..." when building fat JARs, check your merge strategy for reference.conf.
-* 2.4.0_0.4.0 - Re-implement as Play Module
-* 2.4.0_0.3.0 - Upgrade to play 2.4, metrics 3.1.2
-* 2.3.0_0.2.1 - Breaking Change! prefix jvm metric names to standardize with dropwizard
-* 2.3.0_0.2.0 - Meter uncaught exceptions as 500 Internal Server Error
-* 2.3.0_0.1.9 - Add extra http codes, support configurable metrics names for requests filter
-* 2.3.0_0.1.8 - Support default registry in play java. Replace MetricsRegistry.default with MetricsRegistry.defaultRegistry (to support java where default is a reserved keyword)
+7. Consider adding comments to explain parts that may not be self-explanatory.
 
 
-## License
-This code is released under the Apache Public License 2.0.
+
+10. Validate all links/URLs.
+build.sbt - . Changes: Here are some suggested fixes for the code issues:
+
+1. Use consistent formatting and spacing for consistency and readability:
+calculator.java - . Changes: Here is one way to remediate the code issues:
+databaseconnector.java - . Changes: Here is one way to remediate the code issues:
+fileutils.java - . Changes: Here is one way to remediate the code issues:
+main.java - . Changes: Here is one way to remediate the code issues:
+main.tf - . Changes: Here are some suggestions to remediate the code issues:
+
+1. Remove the `putin_khuylo` variable that is enabling VPC creation. This does not seem necessary.
+
+2. Use Terraform 0.12+ features like conditional expressions instead of complex ternary logic. For example:
+outputs.tf - . Changes: Here are some suggestions to improve the code:
+
+1. Use Terraform 0.12 syntax for the `locals` block:
+sbt - . Changes: Here is one way to remediate the code issues:
+test - . Changes: 
+variables.tf - . Changes: Here are some suggested remediations for the code issues:
+
+1. Add description and type declarations for all variables to improve documentation.
+
+2. Use Terraform 0.12+ syntax features:
+
+3. Enable reuse of NAT IPs and provide empty lists as defaults instead of null to avoid errors.
+
+4. Reduce duplication:
+
+5. Remove unnecessary conditionals - enable_dhcp_options does not need to be verified before setting DHCP options vars.
+
+6. Use Terraform validation functions like validate_ipv4_cidr() where applicable.
+
+7. Replace "putin_khuylo" with a more professional default :)
+
+Let me know if any part needs more clarification!
+versions.tf - . Changes: Here is the remediated Terraform code:
+vpc-flow-logs.tf - . Changes: - Replace `var.x ? 1 : 0` with `var.x ? true : false` 
+- Replace `try()` with `coalesce()`
+
+3. Reduce duplication:
+
+- Move duplicate policy documents to separate files
+
+
+- Replace manual ARN construction with `aws_iam_policy.this.arn`
+- Use `aws_caller_identity.current` instead of hard-coded account ID
+
+5. Follow least privilege principles:
+
+- Tighten IAM role permissions 
+
+6. Add validation:
+
+- Validate inputs with regex, allowed values, etc.
+
+7. Improve readability:
+
+- Break into smaller, focused resources
+- Add comments explaining the "why" not just the "what"

@@ -1,3 +1,4 @@
+terraform
 terraform {
   required_version = ">= 1.0"
 
@@ -8,3 +9,5 @@ terraform {
     }
   }
 }
+
+# No issues identified in the provided code

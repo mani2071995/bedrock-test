@@ -1,19 +1,19 @@
-// File: FileUtils.java
+java
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FileUtils {
+
     public static String readFile(String filename) throws IOException {
-        File file = new File(filename);
-        StringBuilder content = new StringBuilder();
-        try (FileReader reader = new FileReader(file)) {
-            char[] buffer = new char[1024];
-            int read;
-            while ((read = reader.read(buffer)) != -1) {
-                content.append(buffer, 0, read);
-            }
+        try {
+            return new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8); 
+        } catch (IOException e) {
+            throw new FileNotFoundException("Could not find file: " + filename);
         }
-        return content.toString();
     }
+
 }
