@@ -1,19 +1,23 @@
-// File: FileUtils.java
+java
 import java.io.File;
-import java.io.FileReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.io.IOException;
 
 public class FileUtils {
+
     public static String readFile(String filename) throws IOException {
+        
         File file = new File(filename);
-        StringBuilder content = new StringBuilder();
-        try (FileReader reader = new FileReader(file)) {
-            char[] buffer = new char[1024];
-            int read;
-            while ((read = reader.read(buffer)) != -1) {
-                content.append(buffer, 0, read);
-            }
+        
+        if(!file.exists()) {
+            throw new IllegalArgumentException("File does not exist: " + filename);
         }
-        return content.toString();
+        
+        byte[] encoded = Files.readAllBytes(Paths.get(filename));
+        return new String(encoded, StandardCharsets.UTF_8);
+        
     }
+
 }
